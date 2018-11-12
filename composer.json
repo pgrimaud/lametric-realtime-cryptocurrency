@@ -1,0 +1,15 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Crypto\\": "src/Crypto"
+    }
+  },
+  "require": {
+    "ext-json": "*",
+    "predis/predis": "^1.1",
+    "guzzlehttp/guzzle": "^6.3"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.10"
+  }
+}
