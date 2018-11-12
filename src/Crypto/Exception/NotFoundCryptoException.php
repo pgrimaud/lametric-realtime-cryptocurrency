@@ -7,7 +7,6 @@ use Throwable;
 class NotFoundCryptoException extends \Exception
 {
     /**
-     * CryptoNotFoundException constructor.
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
