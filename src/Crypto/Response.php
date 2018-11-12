@@ -66,9 +66,9 @@ class Response
      */
     private function formatPrice($price = 0.0)
     {
-        if ($price < 0) {
+        if ($price < 0.1) {
             $fractional = 5;
-        } else if ($price >= 0 && $price < 10) {
+        } else if ($price >= 0.1 && $price < 10) {
             $fractional = 4;
         } elseif ($price >= 10 && $price < 100) {
             $fractional = 3;
