@@ -43,7 +43,7 @@ class Response
         /** @var Currency $currency */
         $frames[] = [
             'index' => 0,
-            'text'  => $this->formatPrice((float) $currency->getPrice()) . '$',
+            'text'  => $this->formatPrice((float)$currency->getPrice()) . $this->getSymbol($currency),
             'icon'  => IconHelper::getIcon($currency->getCode())
         ];
 
@@ -80,4 +80,14 @@ class Response
 
         return round($price, $fractional);
     }
+
+    /**
+     * @param Currency $currency
+     * @return string
+     */
+    private function getSymbol(Currency $currency)
+    {
+        return $currency->isSatoshi() ? 'S' : '$';
+    }
+
 }

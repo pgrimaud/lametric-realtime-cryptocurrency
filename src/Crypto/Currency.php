@@ -30,6 +30,11 @@ class Currency
     private $showChange;
 
     /**
+     * @var bool
+     */
+    private $satoshi;
+
+    /**
      * @return bool
      */
     public function hasShowChange()
@@ -115,5 +120,21 @@ class Currency
     public function setShowChange($showChange)
     {
         $this->showChange = $showChange;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSatoshi()
+    {
+        return $this->satoshi;
+    }
+
+    /**
+     * @param bool $satoshi
+     */
+    public function setSatoshi($satoshi)
+    {
+        $this->satoshi = $satoshi;
     }
 }

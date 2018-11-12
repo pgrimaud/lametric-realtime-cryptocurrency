@@ -16,8 +16,9 @@ class Validator
      * @var array
      */
     private $data = [
-        'code'   => '',
-        'change' => false
+        'code'    => '',
+        'change'  => false,
+        'satoshi' => false
     ];
 
     /**
@@ -42,11 +43,12 @@ class Validator
 
         if (!isset($this->parameters['code'])) {
             throw new MissingCryptoException('Empty crypto code, please configure it');
-        }else{
+        } else {
             $this->data['code'] = addslashes($this->parameters['code']);
         }
 
-        $this->data['change'] = isset($this->parameters['change']) && strtolower($this->parameters['change']) === 'yes';
+        $this->data['change']  = isset($this->parameters['change']) && strtolower($this->parameters['change']) === 'yes';
+        $this->data['satoshi'] = isset($this->parameters['satoshi']) && $this->parameters['satoshi'] == 1;
     }
 
     /**

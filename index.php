@@ -21,6 +21,7 @@ try {
     $currency = new Currency();
     $currency->setCode($validator->getData()['code']);
     $currency->setShowChange($validator->getData()['change']);
+    $currency->setSatoshi($validator->getData()['satoshi']);
 
     $price = new Price(new \GuzzleHttp\Client(), new \Predis\Client(), $currency);
     $price->getValue();

@@ -67,7 +67,14 @@ class Price
 
         if ($prices[$this->currency->getCode()]) {
             $this->currency->setName($prices[$this->currency->getCode()]['name']);
-            $this->currency->setPrice((float)$prices[$this->currency->getCode()]['price']);
+
+            if ($this->currency->isSatoshi()) {
+                $price = (float)($prices[$this->currency->getCode()]['price'] / $prices['BTC']['price']) * 10 ^ 8;
+            } else {
+                $price = (float)$prices[$this->currency->getCode()]['price'];
+            }
+
+            $this->currency->setPrice($price);
             $this->currency->setChange((float)$prices[$this->currency->getCode()]['change']);
         } else {
             throw new NotFoundCryptoException($this->currency->getCode());
