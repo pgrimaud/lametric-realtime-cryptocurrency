@@ -43,7 +43,7 @@ class Response
         /** @var Currency $currency */
         $frames[] = [
             'index' => 0,
-            'text'  => $this->formatPrice($currency->getPrice()) . ' $',
+            'text'  => $this->formatPrice((float) $currency->getPrice()) . ' $',
             'icon'  => IconHelper::getIcon($currency->getCode())
         ];
 
