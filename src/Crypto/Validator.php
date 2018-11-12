@@ -48,7 +48,7 @@ class Validator
         }
 
         $this->data['change']  = isset($this->parameters['change']) && strtolower($this->parameters['change']) === 'yes';
-        $this->data['satoshi'] = isset($this->parameters['satoshi']) && $this->parameters['satoshi'] == 1;
+        $this->data['satoshi'] = isset($this->parameters['satoshi']) && $this->parameters['satoshi'] == 'true';
     }
 
     /**
