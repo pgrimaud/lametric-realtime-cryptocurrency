@@ -69,7 +69,7 @@ class Price
             $this->currency->setName($prices[$this->currency->getCode()]['name']);
 
             if ($this->currency->isSatoshi()) {
-                $price = (float)($prices[$this->currency->getCode()]['price'] / $prices['BTC']['price']) * 10 ^ 8;
+                $price = (float)($prices[$this->currency->getCode()]['price'] / $prices['BTC']['price']) * pow(10, 8);
             } else {
                 $price = (float)$prices[$this->currency->getCode()]['price'];
             }
