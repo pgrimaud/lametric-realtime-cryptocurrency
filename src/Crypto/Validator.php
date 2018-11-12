@@ -40,7 +40,7 @@ class Validator
             throw new NotUpdatedException();
         }
 
-        if (!count($this->parameters['code'])) {
+        if (!isset($this->parameters['code'])) {
             throw new MissingCryptoException('Empty crypto code, please configure it');
         }else{
             $this->data['code'] = addslashes($this->parameters['code']);
