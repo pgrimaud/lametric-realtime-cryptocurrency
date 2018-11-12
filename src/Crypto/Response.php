@@ -78,6 +78,10 @@ class Response
             $fractional = 0;
         }
 
+        if ($price > 10e5) {
+            $price = round(($price / 10e5), 2) . 'M';
+        }
+
         return round($price, $fractional);
     }
 
@@ -87,7 +91,7 @@ class Response
      */
     private function getSymbol(Currency $currency)
     {
-        return $currency->isSatoshi() ? 'S' : '$';
+        return $currency->isSatoshi() ? '' : '$';
     }
 
 }
