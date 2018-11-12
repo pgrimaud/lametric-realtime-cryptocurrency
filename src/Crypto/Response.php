@@ -43,7 +43,7 @@ class Response
         /** @var Currency $currency */
         $frames[] = [
             'index' => 0,
-            'text'  => $this->formatPrice($currency->getPrice()),
+            'text'  => $this->formatPrice($currency->getPrice()) . ' $',
             'icon'  => IconHelper::getIcon($currency->getCode())
         ];
 
@@ -66,7 +66,9 @@ class Response
      */
     private function formatPrice($price = 0.0)
     {
-        if ($price < 10) {
+        if ($price < 0) {
+            $fractional = 5;
+        } else if ($price >= 0 && $price < 10) {
             $fractional = 4;
         } elseif ($price >= 10 && $price < 100) {
             $fractional = 3;
