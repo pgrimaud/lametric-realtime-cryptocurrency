@@ -16,7 +16,7 @@ class Validator
      * @var array
      */
     private $data = [
-        'codes'  => '',
+        'code'   => '',
         'change' => false
     ];
 
@@ -42,6 +42,8 @@ class Validator
 
         if (!count($this->parameters['code'])) {
             throw new MissingCryptoException();
+        }else{
+            $this->data['code'] = addslashes($this->parameters['code']);
         }
 
         $this->data['change'] = isset($this->parameters['change']) && strtolower($this->parameters['change']) === 'yes';

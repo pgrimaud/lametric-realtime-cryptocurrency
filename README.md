@@ -1,4 +1,4 @@
-# Cryptocurrency for LaMetric
+# Realtime cryptocurrency for LaMetric
 
 The ultimate realtime cryptocurrencies for LaMetric! More than 1000 currencies available!
 
