@@ -28,19 +28,14 @@ try {
     echo $response->data($price->getCurrency());
 
 } catch (NotUpdatedException $exception) {
-
     echo $response->error('Please update application!');
-
+} catch (\Crypto\Exception\MissingCryptoException $exception) {
+    echo $response->error($exception->getMessage());
 } catch (NotFoundCryptoException $exception) {
-
     $currencyCode = $exception->getMessage();
     echo $response->error('Invalid currency code ' . $currencyCode . '! Please check your configuration!');
-
-} catch (Exception $exception) {
-
-    echo $response->error();
-
 } catch (\GuzzleHttp\Exception\GuzzleException $e) {
-
+    echo $response->error();
+} catch (Exception $exception) {
     echo $response->error();
 }
