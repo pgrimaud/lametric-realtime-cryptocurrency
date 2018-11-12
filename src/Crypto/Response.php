@@ -78,11 +78,14 @@ class Response
             $fractional = 0;
         }
 
+        // round with fractional previously calculated
+        $price = round($price, $fractional);
+
         if ($price > 10e5) {
             $price = round(($price / 10e5), 2) . 'M';
         }
 
-        return round($price, $fractional);
+        return $price;
     }
 
     /**
