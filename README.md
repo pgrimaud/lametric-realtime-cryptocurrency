@@ -2,6 +2,10 @@
 
 The ultimate realtime cryptocurrencies for LaMetric! More than 1000 currencies available!
 
+![Ethereum](https://raw.githubusercontent.com/pgrimaud/lametric-realtime-cryptocurrency/master/images/eth.png)
+![Vechain](https://raw.githubusercontent.com/pgrimaud/lametric-realtime-cryptocurrency/master/images/vet.png)
+
+
 Based on https://coincap.io/
 
 ## Cryptocurrencies List
