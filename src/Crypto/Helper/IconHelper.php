@@ -4,7 +4,7 @@ namespace Crypto\Helper;
 
 class IconHelper
 {
-    const PRICE_UP = 'i7465';
+    const PRICE_UP   = 'i7465';
     const PRICE_DOWN = 'i7463';
 
     const ICONS = [
@@ -30,6 +30,7 @@ class IconHelper
         'XVG'  => '20648',
         'SNT'  => '16931',
         'ETN'  => '22211',
+        'VET'  => '24452',
     ];
 
     /**
