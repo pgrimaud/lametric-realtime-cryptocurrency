@@ -8,7 +8,7 @@ use Predis\Client as PredisClient;
 
 class Price
 {
-    const DATA_ENDPOINT = 'https://coinmarketcap.com/all/views/all/';
+    const DATA_ENDPOINT = 'https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?convert=USD&cryptocurrency_type=all&limit=3000';
 
     /**
      * @var GuzzleClient
@@ -110,17 +110,16 @@ class Price
     private function fetchData()
     {
         $resource = $this->guzzleClient->request('GET', self::DATA_ENDPOINT);
-        $file     = str_replace("\n", '', (string)$resource->getBody());
 
-        preg_match_all('/<tr id=(.*?)col-symbol">(.*?)<\/td>(.*?)class="price" data-usd="(.*?)"(.*?)data-timespan="24h" data-percentusd="(.*?)"/', $file, $out);
+        $sources = json_decode((string)$resource->getBody(), true);
 
         $data = [];
 
-        foreach ($out[2] as $key => $crypto) {
+        foreach ($sources['data'] as $crypto) {
             $data[] = [
-                'short'  => $crypto,
-                'price'  => str_replace(',', '', number_format($out[4][$key], 10)),
-                'change' => $out[6][$key],
+                'short'  => $crypto['symbol'],
+                'price'  => $crypto['quote']['USD']['price'],
+                'change' => $crypto['quote']['USD']['percent_change_24h'],
             ];
         }
 
