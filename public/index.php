@@ -1,13 +1,9 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-use Crypto\Currency;
-use Crypto\Exception\NotFoundCryptoException;
-use Crypto\Exception\NotUpdatedException;
-use Crypto\Price;
-use Crypto\Response;
-use Crypto\Validator;
+use Crypto\Exception\{NotFoundCryptoException, NotUpdatedException};
+use Crypto\{Currency, Price, Response, Validator};
 
 header("Content-Type: application/json");
 
@@ -35,8 +31,6 @@ try {
 } catch (NotFoundCryptoException $exception) {
     $currencyCode = $exception->getMessage();
     echo $response->error('Invalid currency code ' . $currencyCode . '! Please check your configuration!');
-} catch (\GuzzleHttp\Exception\GuzzleException $e) {
-    echo $response->error();
 } catch (Exception $exception) {
     echo $response->error();
 }
