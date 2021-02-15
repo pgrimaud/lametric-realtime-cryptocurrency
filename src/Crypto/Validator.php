@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crypto;
 
 use Crypto\Exception\MissingCryptoException;
@@ -10,22 +12,21 @@ class Validator
     /**
      * @var array
      */
-    private $parameters = [];
+    private array $parameters = [];
 
     /**
      * @var array
      */
-    private $data = [
+    private array $data = [
         'code'    => '',
         'change'  => false,
-        'satoshi' => false
+        'satoshi' => false,
     ];
 
     /**
-     * Validation constructor.
-     * @param $parameters
+     * @param array $parameters
      */
-    public function __construct($parameters)
+    public function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }
@@ -34,7 +35,7 @@ class Validator
      * @throws MissingCryptoException
      * @throws NotUpdatedException
      */
-    public function check()
+    public function check(): void
     {
         // compatibility
         if (isset($this->parameters['currency'])) {
@@ -54,7 +55,7 @@ class Validator
     /**
      * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }

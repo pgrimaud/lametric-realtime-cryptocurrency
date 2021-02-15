@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crypto;
 
 use Crypto\Exception\NotFoundCryptoException;
@@ -8,28 +10,27 @@ use Predis\Client as PredisClient;
 
 class Price
 {
-    const DATA_ENDPOINT = 'https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?convert=USD&cryptocurrency_type=all&limit=3000';
+    const DATA_ENDPOINT = 'https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?convert=USD&cryptocurrency_type=all&limit=4999';
 
     /**
      * @var GuzzleClient
      */
-    private $guzzleClient;
+    private GuzzleClient $guzzleClient;
 
     /**
      * @var PredisClient
      */
-    private $predisClient;
+    private PredisClient $predisClient;
 
     /**
      * @var Currency
      */
-    private $currency;
+    private Currency $currency;
 
     /**
-     * Price constructor.
      * @param GuzzleClient $guzzleClient
      * @param PredisClient $predisClient
-     * @param Currency     $currency
+     * @param Currency $currency
      */
     public function __construct(GuzzleClient $guzzleClient, PredisClient $predisClient, Currency $currency)
     {
@@ -40,10 +41,11 @@ class Price
 
     /**
      * @return void
+     *
      * @throws NotFoundCryptoException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getValue()
+    public function getValue(): void
     {
         $redisKey = 'lametric:cryptocurrency';
 
@@ -57,13 +59,13 @@ class Price
 
             // save to redis
             $this->predisClient->set($redisKey, json_encode($prices));
-            $this->predisClient->expireat($redisKey, strtotime("+3 minutes"));
+            $this->predisClient->expireat($redisKey, strtotime("+1 minute"));
         } else {
-            $prices = json_decode($pricesFile, JSON_OBJECT_AS_ARRAY);
+            $prices = json_decode($pricesFile, true);
         }
 
-        if ($prices[$this->currency->getCode()]) {
-            $this->currency->setName($prices[$this->currency->getCode()]['name']);
+        if (isset($prices[$this->currency->getCode()])) {
+            $this->currency->setName($this->currency->getCode());
 
             if ($this->currency->isSatoshi()) {
                 $price = (float)($prices[$this->currency->getCode()]['price'] / $prices['BTC']['price']) * pow(10, 8);
@@ -79,17 +81,18 @@ class Price
     }
 
     /**
-     * @param $data
+     * @param array $data
+     *
      * @return array
      */
-    public function formatData($data)
+    public function formatData(array $data): array
     {
         $formattedData = [];
 
         foreach ($data as $currency) {
             $formattedData[$currency['short']] = [
                 'price'  => $currency['price'],
-                'change' => $currency['change']
+                'change' => $currency['change'],
             ];
         }
 
@@ -99,15 +102,17 @@ class Price
     /**
      * @return Currency
      */
-    public function getCurrency()
+    public function getCurrency(): Currency
     {
         return $this->currency;
     }
 
     /**
+     * @return array
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function fetchData()
+    private function fetchData(): array
     {
         $resource = $this->guzzleClient->request('GET', self::DATA_ENDPOINT);
 

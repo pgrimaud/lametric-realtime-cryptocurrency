@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 require __DIR__ . '/../vendor/autoload.php';
+$config = require_once __DIR__ . '/../config/parameters.php';
 
 use Crypto\Exception\{NotFoundCryptoException, NotUpdatedException};
 use Crypto\{Currency, Price, Response, Validator};
+
+Sentry\init(['dsn' => $config['sentry_key']]);
 
 header("Content-Type: application/json");
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crypto;
 
 use Crypto\Helper\IconHelper;
@@ -8,35 +10,38 @@ class Response
 {
     /**
      * @param array $data
+     *
      * @return string
      */
-    public function asJson($data = [])
+    public function asJson(array $data = []): string
     {
-        return json_encode($data, JSON_PRETTY_PRINT);
+        return json_encode($data);
     }
 
     /**
      * @param string $value
+     *
      * @return string
      */
-    public function error($value = 'INTERNAL ERROR')
+    public function error(string $value = 'INTERNAL ERROR'): string
     {
         return $this->asJson([
             'frames' => [
                 [
                     'index' => 0,
                     'text'  => $value,
-                    'icon'  => 'null'
-                ]
-            ]
+                    'icon'  => 'null',
+                ],
+            ],
         ]);
     }
 
     /**
      * @param Currency $currency
+     *
      * @return string
      */
-    public function data(Currency $currency)
+    public function data(Currency $currency): string
     {
         $frames = [];
 
@@ -44,7 +49,7 @@ class Response
         $frames[] = [
             'index' => 0,
             'text'  => $this->formatPrice((float)$currency->getPrice()) . $this->getSymbol($currency),
-            'icon'  => IconHelper::getIcon($currency->getCode())
+            'icon'  => IconHelper::getIcon($currency->getCode()),
         ];
 
         if ($currency->isShowChange()) {
@@ -56,15 +61,16 @@ class Response
         }
 
         return $this->asJson([
-            'frames' => $frames
+            'frames' => $frames,
         ]);
     }
 
     /**
      * @param float $price
-     * @return int
+     *
+     * @return string
      */
-    private function formatPrice($price = 0.0)
+    private function formatPrice(float $price = 0.0): string
     {
         if ($price < 10) {
             $fractional = 4;
@@ -85,14 +91,15 @@ class Response
             $price = round(($price / 10e5), 2) . 'M';
         }
 
-        return $price;
+        return (string)$price;
     }
 
     /**
      * @param Currency $currency
+     *
      * @return string
      */
-    private function getSymbol(Currency $currency)
+    private function getSymbol(Currency $currency): string
     {
         return $currency->isSatoshi() ? '' : '$';
     }

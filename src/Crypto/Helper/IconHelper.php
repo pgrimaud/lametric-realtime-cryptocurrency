@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Crypto\Helper;
 
 class IconHelper
@@ -35,10 +37,10 @@ class IconHelper
     ];
 
     /**
-     * @param $code
-     * @return mixed|string
+     * @param string $code
+     * @return string
      */
-    public static function getIcon($code)
+    public static function getIcon(string $code): string
     {
         return isset(self::ICONS[$code]) ? 'i' . self::ICONS[$code] : 'null';
     }
