@@ -13,30 +13,12 @@ class Price
     const DATA_ENDPOINT = 'https://web-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?convert=USD&cryptocurrency_type=all&limit=4999';
 
     /**
-     * @var GuzzleClient
-     */
-    private GuzzleClient $guzzleClient;
-
-    /**
-     * @var PredisClient
-     */
-    private PredisClient $predisClient;
-
-    /**
-     * @var Currency
-     */
-    private Currency $currency;
-
-    /**
      * @param GuzzleClient $guzzleClient
      * @param PredisClient $predisClient
-     * @param Currency $currency
+     * @param Currency     $currency
      */
-    public function __construct(GuzzleClient $guzzleClient, PredisClient $predisClient, Currency $currency)
+    public function __construct(private GuzzleClient $guzzleClient, private PredisClient $predisClient, private Currency $currency)
     {
-        $this->guzzleClient = $guzzleClient;
-        $this->predisClient = $predisClient;
-        $this->currency     = $currency;
     }
 
     /**
@@ -68,13 +50,13 @@ class Price
             $this->currency->setName($this->currency->getCode());
 
             if ($this->currency->isSatoshi()) {
-                $price = (float)($prices[$this->currency->getCode()]['price'] / $prices['BTC']['price']) * pow(10, 8);
+                $price = (float) ($prices[$this->currency->getCode()]['price'] / $prices['BTC']['price']) * pow(10, 8);
             } else {
-                $price = (float)$prices[$this->currency->getCode()]['price'];
+                $price = (float) $prices[$this->currency->getCode()]['price'];
             }
 
             $this->currency->setPrice($price);
-            $this->currency->setChange((float)$prices[$this->currency->getCode()]['change']);
+            $this->currency->setChange((float) $prices[$this->currency->getCode()]['change']);
         } else {
             throw new NotFoundCryptoException($this->currency->getCode());
         }
@@ -116,7 +98,7 @@ class Price
     {
         $resource = $this->guzzleClient->request('GET', self::DATA_ENDPOINT);
 
-        $sources = json_decode((string)$resource->getBody(), true);
+        $sources = json_decode((string) $resource->getBody(), true);
 
         $data = [];
 
